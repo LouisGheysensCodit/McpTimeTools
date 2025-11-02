@@ -47,9 +47,17 @@ public class TimeZoneProvider : ITimeZoneProvider
     }
 
     /// <inheritdoc/>
-    public IReadOnlyCollection<string> GetAvailableCities()
+    public IReadOnlyCollection<string> GetAvailableCities(CitySortOrder sortOrder = CitySortOrder.Alphabetical)
     {
-        return _cityTimeZones.Keys.ToList().AsReadOnly();
+        var cities = _cityTimeZones.Keys;
+
+        return sortOrder switch
+        {
+            CitySortOrder.None => cities.ToList().AsReadOnly(),
+            CitySortOrder.Alphabetical => cities.Order().ToList().AsReadOnly(),
+            CitySortOrder.AlphabeticalDescending => cities.OrderDescending().ToList().AsReadOnly(),
+            _ => throw new InvalidCitySortOrderException(sortOrder)
+        };
     }
 
     /// <inheritdoc/>

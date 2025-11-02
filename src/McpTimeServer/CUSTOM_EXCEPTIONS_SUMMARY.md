@@ -24,6 +24,12 @@ Created a robust exception hierarchy with a base `TimeZoneException` and three s
   - Includes `CityName` and optional `AvailableCities` list
   - Helpful error messages that suggest available options
 
+  - **`InvalidCitySortOrderException`**
+  - Thrown when an invalid or unsupported city sort order is specified
+  - Carries the `SortOrder` property for diagnostics
+  - Used by the `GetAvailableCities` and `GetAvailableCityNames` methods
+  - Helps ensure invalid enum values are caught early
+
 ### 2. Enhanced Interface
 Updated `ITimeZoneProvider` with:
 - `GetTimeZoneId(string city)` - Non-try version that throws exceptions
@@ -79,7 +85,7 @@ Added 12 new tests covering:
 - ? `Exceptions/InvalidCityException.cs`
 - ? `Exceptions/InvalidTimeZoneIdException.cs`
 - ? `Exceptions/CityNotFoundException.cs`
-- ? `Exceptions/README.md`
+- ? `Exceptions/InvalidCitySortOrderException.cs`
 
 ### Modified Files:
 - ? `ITimeZoneProvider.cs` - Added new methods and exception documentation

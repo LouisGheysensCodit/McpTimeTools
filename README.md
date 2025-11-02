@@ -112,6 +112,27 @@ timeZoneProvider.AddOrUpdateCity("Paris", "Europe/Paris");
 var cities = timeZoneProvider.GetAvailableCities();
 ```
 
+#### `GetAvailableCityNames`
+Gets a comma-separated list of all available city names.
+
+**Parameters**:  
+- `sortOrder` (`CitySortOrder`, optional): Specifies how cities are sorted.  
+  Defaults to `Alphabetical` (A–Z). Possible values:  
+  - `None` — returns cities in their insertion order  
+  - `Alphabetical` — ascending (A–Z)  
+  - `AlphabeticalDescending` — descending (Z–A)
+
+**Returns**:  
+Comma-separated list of city names, or `"No cities configured."` if none exist.
+
+**Example**:
+Cancun, London, Mexico City, New York, Tokyo
+
+**Notes**:
+- Useful for lightweight city listings or populating dropdown menus in clients.
+- Throws `InvalidCitySortOrderException` if an unsupported sort order is provided.
+
+
 ## ??? Architecture
 
 ### Project Structure
@@ -147,6 +168,7 @@ Exception
     ??? InvalidCityException
     ??? InvalidTimeZoneIdException
     ??? CityNotFoundException
+    ??? InvalidCitySortOrderException
 ```
 
 ## ??? Technologies

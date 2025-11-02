@@ -57,23 +57,4 @@ public class TimeToolTests
         // Assert
         Assert.Contains("not found in timezone mapping", result);
     }
-
-    /// <summary>
-    /// Tests that AddOrUpdateCityTimeZone correctly adds a new city and its timezone.
-    /// </summary>
-    [Fact]
-    public void AddOrUpdateCityTimeZone_AddsNewCity()
-    {
-        // Arrange
-        var timeZoneProvider = new TimeZoneProvider();
-        var timeTools = new TimeTools(timeZoneProvider);
-
-        // Act
-        timeTools.AddOrUpdateCityTimeZone("Paris", "Europe/Paris");
-        var result = timeTools.GetLocalTime("Paris");
-
-        // Assert
-        Assert.Contains("Paris:", result);
-        Assert.Contains("Europe/Paris", result);
-    }
 }

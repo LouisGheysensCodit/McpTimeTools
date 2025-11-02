@@ -126,6 +126,31 @@ public class TimeZoneProviderTests
         Assert.Equal(5, cities.Count); // Default cities
     }
 
+    [Theory]
+    [MemberData(nameof(SortOrderTestData))]
+    public void GetAvailableCities_ReturnsExpectedOrder(CitySortOrder sortOrder, string[] expected)
+    {
+        // Arrange
+        var provider = new TimeZoneProvider();
+
+        // Act
+        var cities = provider.GetAvailableCities(sortOrder).ToList();
+
+        // Assert
+        Assert.Equal(expected, cities);
+    }
+
+    [Fact]
+    public void GetAvailableCities_InvalidSortOrder_ThrowsException()
+    {
+        // Arrange
+        var provider = new TimeZoneProvider();
+        const CitySortOrder invalidOrder = (CitySortOrder)999;
+
+        // Act & Assert
+        Assert.Throws<InvalidCitySortOrderException>(() => provider.GetAvailableCities(invalidOrder));
+    }
+
     /// <summary>
     /// Verifies that GetAvailableCities returns a read-only collection to prevent external modification.
     /// </summary>
@@ -211,4 +236,24 @@ public class TimeZoneProviderTests
         // Assert
         Assert.Equal("Europe/London", result);
     }
+
+
+    /// <summary>
+    /// Provides test data for verifying city sort orders.
+    /// </summary>
+    public static TheoryData<CitySortOrder, string[]> SortOrderTestData => new()
+    {
+        {
+            CitySortOrder.None,
+            new[] { "Cancun", "Mexico City", "New York", "London", "Tokyo" }
+        },
+        {
+            CitySortOrder.Alphabetical,
+            new[] { "Cancun", "London", "Mexico City", "New York", "Tokyo" }
+        },
+        {
+            CitySortOrder.AlphabeticalDescending,
+            new[] { "Tokyo", "New York", "Mexico City", "London", "Cancun" }
+        }
+    };
 }

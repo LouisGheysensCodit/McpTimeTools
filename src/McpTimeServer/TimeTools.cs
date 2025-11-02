@@ -43,6 +43,21 @@ public class TimeTools
         return FormatLocalTime(city);
     }
 
+    /// <summary>
+    /// Gets a list of all available city names.
+    /// </summary>
+    /// <param name="sortOrder">Optional sort order for cities. Defaults to alphabetical (A-Z).</param>
+    /// <returns>Comma-separated list of city names.</returns>
+    [McpServerTool, Description("Gets a list of all available city names.")]
+    public string GetAvailableCityNames(CitySortOrder sortOrder = CitySortOrder.Alphabetical)
+    {
+        var cities = _timeZoneProvider.GetAvailableCities(sortOrder);
+
+        return cities.Count == 0
+            ? "No cities configured."
+            : string.Join(", ", cities);
+    }
+
     private string FormatLocalTime(string city)
     {
         if (!_timeZoneProvider.TryGetTimeZoneId(city, out var timezoneId) || timezoneId == null)
@@ -64,13 +79,5 @@ public class TimeTools
         {
             return $"Timezone '{timezoneId}' is invalid.";
         }
-    }
-
-    /// <summary>
-    /// Adds or updates a city-to-timezone mapping.
-    /// </summary>
-    public void AddOrUpdateCityTimeZone(string city, string timezoneId)
-    {
-        _timeZoneProvider.AddOrUpdateCity(city, timezoneId);
     }
 }

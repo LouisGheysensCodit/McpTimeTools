@@ -19,7 +19,9 @@ public interface ITimeZoneProvider
     /// <summary>
     /// Gets all available cities in the timezone mapping.
     /// </summary>
-    IReadOnlyCollection<string> GetAvailableCities();
+    /// <param name="sortOrder">The sort order for the returned cities. Defaults to Alphabetical.</param>
+    /// <returns>A read-only collection of city names in the specified order.</returns>
+    IReadOnlyCollection<string> GetAvailableCities(CitySortOrder sortOrder = CitySortOrder.Alphabetical);
 
     /// <summary>
     /// Adds or updates a city-to-timezone mapping.
